@@ -1,4 +1,4 @@
-# Security Policy
+# Security & Bug Reporting Policy
 
 ## Supported Versions
 
