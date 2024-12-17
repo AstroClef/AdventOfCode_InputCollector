@@ -7,6 +7,12 @@ Quickly gathers you Puzzle Inputs and saves them to their own text files in your
 - Also great if you work accross multiple boxes, and are being a good little coder and not sharing your puzzle inputs over source control. :)
 - Along side both of the above reasons, very helpful when preparing to work offline.
 
+## Releases
+IMPORTANT - Always validate the checksum!
+_Checksums will be provided in the release's description._
+
+- [Version 1.0.0 (latest)](https://github.com/AstroClef/AdventOfCode_InputCollector/releases/tag/v1.0.0)
+
 ## How To Use
 1. Enter the year of the project you'd like puzzle inputs for (The earliest available is 2015).
 2. You can then choose a single day or skip and download all available up to the current day for the given year.
