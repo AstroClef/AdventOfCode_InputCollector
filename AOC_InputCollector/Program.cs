@@ -4,7 +4,7 @@ namespace AOC_InputCollector
 {
     internal class Program
     {
-        public const string VERSION = "0.1.0";
+        public const string VERSION = "1.0.0";
         private static string rootlink = "https://adventofcode.com/";
         private static (int, bool) responseYear;
         private static (int, bool) responseDay;
