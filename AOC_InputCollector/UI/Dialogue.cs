@@ -24,14 +24,15 @@ namespace AOC_InputCollector.UI
             { 
                 DialogueID.START, 
                 $"Advent of Code - Project Input Collector - v{Program.VERSION}\n" +
-                $"-------------------------------------------------------------\n" },
+                $"-------------------------------------------------------------\n" 
+            },
             { 
                 DialogueID.YEAR, 
                 "Which project YEAR do you want?"
             },
             { 
                 DialogueID.DAY, 
-                "Which project DAY do you want?" 
+                "Which project DAY do you want?"
             },
             { 
                 DialogueID.SESSIONTOKEN, 

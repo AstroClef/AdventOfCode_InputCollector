@@ -5,7 +5,7 @@ namespace AOC_InputCollector
     internal class Program
     {
         public const string VERSION = "0.1.0";
-        private static string weblink = "https://adventofcode.com/";
+        private static string rootlink = "https://adventofcode.com/";
         private static (int, bool) responseYear;
         private static (int, bool) responseDay;
         private static (string?, bool) responseKey;
@@ -17,18 +17,32 @@ namespace AOC_InputCollector
 
         static void Main(string[] args)
         {
+            DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             CollectInformation();
+            if (currentDate < DateOnly.Parse($"12/1/{responseYear.Item1}"))
+            {
+                Console.WriteLine($"The Advent of Code for the year you've selected ({responseYear.Item1}) hasn't started yet.");
+                return;
+            }
+            if (responseYear.Item1 < 2015)
+            {
+                Console.WriteLine($"The year you selected: {responseYear.Item1}\nAdvent of Code only started in 2015.");
+                return;
+            }
+            if (responseDay.Item1 > 25)
+            {
+                Console.WriteLine("Advent of Code only has 25 days.");
+                return;
+            }
 
             if (needFullInventory)
             {
-                InventoryPuzzleInput();
-                //TODO: For each available day, download the puzzle input.
+                InventoryPuzzleInput(currentDate).Wait();
             }
             else
             {
                 //Example of how the link should look like: https://adventofcode.com/2024/day/4/input
-                weblink = weblink + responseYear.Item1 + "/day/" + responseDay.Item1 + "/input";
-                FetchPuzzleInput(weblink, responseKey.Item1!, responseDay.Item1).Wait();
+                FetchPuzzleInput(rootlink + responseYear.Item1 + "/day/" + responseDay.Item1 + "/input", responseDay.Item1!).Wait();
             }
         }
 
@@ -72,12 +86,13 @@ namespace AOC_InputCollector
             {
                 createEmptyDVTFiles = true;
             }
-
+            
             do
             {
                 responseDirectory = Responses.GetResponse<string>(DialogueID.DIRECTORY);
                 Console.Clear();
             } while (!responseDirectory.Item2 || !Path.Exists(responseDirectory.Item1));
+            
 
             do
             {
@@ -86,11 +101,11 @@ namespace AOC_InputCollector
             } while (!responseKey.Item2);
         }
 
-        private static async Task FetchPuzzleInput(string link, string key, int day)
+        private static async Task FetchPuzzleInput(string link, int day)
         {
             using (HttpClient client = new())
             {
-                client.DefaultRequestHeaders.Add("Cookie", $"session={key}");
+                client.DefaultRequestHeaders.Add("Cookie", $"session={responseKey.Item1}");
                 try
                 {
                     HttpResponseMessage response = await client.GetAsync(link);
@@ -130,11 +145,12 @@ namespace AOC_InputCollector
             }
         }
 
-        private static void InventoryPuzzleInput()
-        {
-            throw new NotImplementedException();
-
-            //TODO: Check if the file exists, if not, download it.
+        private static async Task InventoryPuzzleInput(DateOnly date)
+        {   
+            for (int day = 1;  day <= date.Day && day <= 25; day++)
+            {             
+                await FetchPuzzleInput(rootlink + responseYear.Item1 + $"/day/{day}/input", day);
+            }
         }
     }
 }
